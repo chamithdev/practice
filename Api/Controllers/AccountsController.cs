@@ -1,6 +1,6 @@
-﻿using Api.Dtos;
-using Api.Interface;
+﻿using Api.Interface;
 using DA.Model;
+using DA.Model.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
