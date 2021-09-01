@@ -36,9 +36,5 @@ namespace DA.Model
 
         public ICollection<Photo> Photos { get; set; }
 
-        //public int GetAge()
-        //{
-        //    return DateofBirth.CalculateAge();
-        //}
     }
 }

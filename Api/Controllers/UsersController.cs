@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Api.Controllers
@@ -31,18 +32,28 @@ namespace Api.Controllers
             return Ok(members);
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<AppUser>> GetUser(int id)
-        //{
-        //    AppUser appUser = await this.repository.GetUserByIdAsync(id);
-        //    return Ok(appUser);
-        //}
-
+        
         [HttpGet("{username}")]
         public async Task<ActionResult<MemberDto>> GetUserByUsername(string username)
         {           
             MemberDto member  = await this.repository.GetMembersByUsernameAsync(username);
             return Ok(member);
         }
+
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateMember(MemberUpdateDto member)
+        {
+            string userName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            AppUser user = await this.repository.GetUserByUsernameAsync(userName);
+            this.mapper.Map(member, user);
+            this.repository.Update(user);
+            if(await this.repository.SaveAllAsync())
+            {
+                return NoContent();
+            }
+            return BadRequest("Internal error");
+        }
+
     }
 }
