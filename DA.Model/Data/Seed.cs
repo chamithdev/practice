@@ -26,7 +26,7 @@ namespace DA.Model.Data
                 {
                     user.UserName = user.UserName.ToLower();
                     user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("abc123"));
-                    user.PasswordHash = hmac.Key;
+                    user.PasswordSalt = hmac.Key;
 
                     db.Users.Add(user);
                 }
