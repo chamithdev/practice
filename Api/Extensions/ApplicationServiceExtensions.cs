@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using DA.Model.Helpers;
+using Api.Helpers;
 
 namespace Api.Extensions
 {
@@ -15,7 +16,9 @@ namespace Api.Extensions
     {
         public static IServiceCollection AddApplicaitonServices(this IServiceCollection services, IConfiguration config)
         {
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddDbContext<DataContext>(options =>
